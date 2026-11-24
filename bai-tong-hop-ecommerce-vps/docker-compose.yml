@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    image: nginxdemos/hello
+    container_name: ecommerce-backend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: ecommerce-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ecommerce_user
+      POSTGRES_PASSWORD: supersecretpassword
+      POSTGRES_DB: ecommerce_db
+    volumes:
+      - ecommerce_pgdata:/var/lib/postgresql/data
+
+volumes:
+  ecommerce_pgdata:
